@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista della Spesa</title>
+</head>
+<body>
+    <h1>Lista della Spesa</h1>
+    
+    {% if lista %}
+        <ul>
+            {% for elemento in lista %}
+                <li>
+                    {{ elemento }}
+                    <a href="{{ url_for('rimuovi', indice=loop.index0) }}">Rimuovi</a>
+                </li>
+            {% endfor %}
+        </ul>
+        <a href="{{ url_for('svuota') }}">Svuota Lista</a>
+    {% else %}
+        <p>La lista della spesa è vuota.</p>
+    {% endif %}
+    
+    <form action="{{ url_for('aggiungi') }}" method="POST">
+        <input type="text" name="elemento" placeholder="Aggiungi un elemento">
+        <button type="submit">Aggiungi</button>
+    </form>
+</body>
+</html>
