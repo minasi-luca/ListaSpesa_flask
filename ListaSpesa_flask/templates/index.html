@@ -4,27 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista della Spesa</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Lista della Spesa</h1>
-    
-    {% if lista %}
-        <ul>
-            {% for elemento in lista %}
-                <li>
-                    {{ elemento }}
-                    <a href="{{ url_for('rimuovi', indice=loop.index0) }}">Rimuovi</a>
-                </li>
-            {% endfor %}
-        </ul>
-        <a href="{{ url_for('svuota') }}">Svuota Lista</a>
-    {% else %}
-        <p>La lista della spesa è vuota.</p>
-    {% endif %}
-    
-    <form action="{{ url_for('aggiungi') }}" method="POST">
-        <input type="text" name="elemento" placeholder="Aggiungi un elemento">
-        <button type="submit">Aggiungi</button>
-    </form>
+    <div class="container">
+        <h1>Lista della Spesa</h1>
+
+        <div class="card">
+            <div class="card-body">
+                {% if lista %}
+                    <ul class="list-group">
+                        {% for elemento in lista %}
+                            <li class="list-group-item">
+                                <span>{{ elemento }}</span>
+                                <a href="{{ url_for('rimuovi', indice=loop.index0) }}" class="btn-remove">Rimuovi</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="actions">
+                        <a href="{{ url_for('svuota') }}" class="btn-clear">Svuota Lista</a>
+                    </div>
+                {% else %}
+                    <p class="empty-message">La lista della spesa è vuota.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <form action="{{ url_for('aggiungi') }}" method="POST" class="add-form">
+            <input type="text" name="elemento" placeholder="Aggiungi un elemento" required>
+            <button type="submit" class="btn-add">Aggiungi</button>
+        </form>
+    </div>
 </body>
 </html>
