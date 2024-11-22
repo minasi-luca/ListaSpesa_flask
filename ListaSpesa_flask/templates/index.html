@@ -1,23 +1,158 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista della Spesa</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #3498db;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            margin-bottom: 20px;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .list-group {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .list-group-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fafafa;
+            padding: 12px 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+
+        .list-group-item:hover {
+            background-color: #e6f0ff;
+        }
+
+        .item-text {
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        .btn-remove {
+            background-color: transparent;
+            border: none;
+            color: #e74c3c;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .btn-remove:hover {
+            color: #c0392b;
+        }
+
+        .empty-message {
+            text-align: center;
+            color: #777;
+            font-size: 1.2rem;
+            font-style: italic;
+        }
+
+        .actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn-clear {
+            background-color: #e74c3c;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .btn-clear:hover {
+            background-color: #c0392b;
+        }
+
+        .add-item-form {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .add-item-form input {
+            padding: 12px;
+            width: 250px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .add-item-form input:focus {
+            border-color: #3498db;
+        }
+
+        .add-item-form button {
+            padding: 12px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .add-item-form button:hover {
+            background-color: #2980b9;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>Lista della Spesa</h1>
+        <header>
+            <h1>Lista della Spesa</h1>
+        </header>
 
-        <div class="card">
+        <section class="card">
             <div class="card-body">
                 {% if lista %}
                     <ul class="list-group">
                         {% for elemento in lista %}
                             <li class="list-group-item">
-                                <span>{{ elemento }}</span>
-                                <a href="{{ url_for('rimuovi', indice=loop.index0) }}" class="btn-remove">Rimuovi</a>
+                                <span class="item-text">{{ elemento }}</span>
+                                <a href="{{ url_for('rimuovi', indice=loop.index0) }}" class="btn-remove">🗑️</a>
                             </li>
                         {% endfor %}
                     </ul>
@@ -28,12 +163,14 @@
                     <p class="empty-message">La lista della spesa è vuota.</p>
                 {% endif %}
             </div>
-        </div>
+        </section>
 
-        <form action="{{ url_for('aggiungi') }}" method="POST" class="add-form">
-            <input type="text" name="elemento" placeholder="Aggiungi un elemento" required>
-            <button type="submit" class="btn-add">Aggiungi</button>
-        </form>
+        <section class="add-item-form">
+            <form action="{{ url_for('aggiungi') }}" method="POST">
+                <input type="text" name="elemento" placeholder="Aggiungi un elemento" required>
+                <button type="submit" class="btn-add">Aggiungi</button>
+            </form>
+        </section>
     </div>
 </body>
 </html>
