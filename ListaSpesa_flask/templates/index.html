@@ -140,37 +140,33 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Lista della Spesa</h1>
-        </header>
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista Spesa</title>
 
-        <section class="card">
-            <div class="card-body">
-                {% if lista %}
-                    <ul class="list-group">
-                        {% for elemento in lista %}
-                            <li class="list-group-item">
-                                <span class="item-text">{{ elemento }}</span>
-                                <a href="{{ url_for('rimuovi', indice=loop.index0) }}" class="btn-remove">🗑️</a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                    <div class="actions">
-                        <a href="{{ url_for('svuota') }}" class="btn-clear">Svuota Lista</a>
-                    </div>
-                {% else %}
-                    <p class="empty-message">La lista della spesa è vuota.</p>
-                {% endif %}
-            </div>
-        </section>
+    <h1>Lista della Spesa</h1>
 
-        <section class="add-item-form">
-            <form action="{{ url_for('aggiungi') }}" method="POST">
-                <input type="text" name="elemento" placeholder="Aggiungi un elemento" required>
-                <button type="submit" class="btn-add">Aggiungi</button>
-            </form>
-        </section>
-    </div>
+    <form action="/aggiungi" method="POST">
+        <label for="elemento">Aggiungi Elemento:</label>
+        <input type="text" name="elemento" required>
+        <button type="submit">Aggiungi</button>
+    </form>
+
+    <h2>Elementi della lista:</h2>
+    <ul>
+        {% for item in elementi %}
+            <li>{{ item.elemento }}
+                <a href="/rimuovi/{{ item.id }}">Rimuovi</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <form action="/svuota" method="GET">
+        <button type="submit">Svuota Lista</button>
+    </form>
 </body>
 </html>
